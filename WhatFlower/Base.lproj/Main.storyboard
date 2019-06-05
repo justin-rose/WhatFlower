@@ -18,16 +18,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qgw-MU-RwT">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Fxp-Fc-cAU">
                                 <rect key="frame" x="0.0" y="88" width="375" height="690"/>
-                            </imageView>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qgw-MU-RwT">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="345"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="nGe-kE-KkU">
+                                        <rect key="frame" x="0.0" y="345" width="375" height="345"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Qgw-MU-RwT" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="66b-qc-ZJf"/>
-                            <constraint firstItem="Qgw-MU-RwT" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="LbG-fb-TDu"/>
-                            <constraint firstItem="Qgw-MU-RwT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="R68-Tg-fge"/>
-                            <constraint firstItem="Qgw-MU-RwT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="XaE-EQ-9iu"/>
+                            <constraint firstItem="Fxp-Fc-cAU" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="7Sx-Uj-06v"/>
+                            <constraint firstItem="Fxp-Fc-cAU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="gzd-Ba-HnE"/>
+                            <constraint firstItem="Fxp-Fc-cAU" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="nxY-HS-V7Q"/>
+                            <constraint firstItem="Fxp-Fc-cAU" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="v7Y-GQ-wlv"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -40,6 +51,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="imageView" destination="Qgw-MU-RwT" id="sMx-zj-FY8"/>
+                        <outlet property="wikiLabel" destination="nGe-kE-KkU" id="Rw3-wU-X8O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -9,11 +9,17 @@
 import UIKit
 import Vision
 import CoreML
+import Alamofire
+import SwiftyJSON
+import SDWebImage
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var wikiLabel: UILabel!
+    
     let imagePicker = UIImagePickerController()
+    let wikipediaURL = "https://en.wikipedia.org/w/api.php"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +33,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             
-            imageView.image = userPickedImage
+            //imageView.image = userPickedImage
             guard let ciimage = CIImage(image: userPickedImage) else { fatalError("unable to convert UIImage to CIImage") }
             detect(image: ciimage)
         }
@@ -45,7 +51,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             guard let results = request.results as? [VNClassificationObservation] else { fatalError("Model failed to process image") }
             
             if let firstResult = results.first {
-                self.navigationItem.title = firstResult.identifier.capitalized
+                let flowerName = firstResult.identifier.capitalized
+                
+                self.navigationItem.title = flowerName
+                
+                self.getWikiInfo(for: flowerName)
             }
         }
         
@@ -62,5 +72,37 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         present(imagePicker, animated: true, completion: nil)
     }
     
+    func getWikiInfo(for flowerName: String) {
+        let parameters : [String : String] = [
+            "format" : "json",
+            "action" : "query",
+            "prop" : "extracts|pageimages",
+            "piprop" : "original",
+            "exintro" : "",
+            "explaintext" : "",
+            "titles" : flowerName,
+            "indexpageids" : "",
+            "redirects" : "1"
+        ]
+        
+        AF.request(wikipediaURL, method: .get, parameters: parameters).responseJSON { (response) in
+            
+            if let wikiResponse = response.value {
+                
+                let wikiJSON = JSON(wikiResponse)
+
+                self.printWikiInfo(json: wikiJSON)
+            }
+        }
+    }
+    
+    func printWikiInfo(json: JSON) {
+        let pageID = json["query"]["pageids"][0].stringValue
+            
+        //set lines to 0 and set a minimum font size in the property inspector to fit all of the text from the extract
+        wikiLabel.text = json["query"]["pages"][pageID]["extract"].stringValue
+        
+        imageView.sd_setImage(with: URL(string: json["query"]["pages"][pageID]["original"]["source"].stringValue))
+    }
 }
 
